@@ -85,9 +85,7 @@ const Header: FC = () => {
 
   return (
     <div>
-      <div className="card">
-        <Menubar start={start} model={items} end={end} />
-      </div>
+      <Menubar start={start} model={items} end={end} />
     </div>
   );
 };

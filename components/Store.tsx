@@ -8,7 +8,7 @@ import { Tag } from "primereact/tag";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import * as web3 from "@solana/web3.js";
 
-const DisconnectedPage: FC = () => {
+const Store: FC = () => {
   const [balance, setBalance] = useState(0);
   const { connection } = useConnection();
   const { publicKey } = useWallet();
@@ -76,10 +76,12 @@ const DisconnectedPage: FC = () => {
               <Button
                 icon="pi pi-cart-plus"
                 className="p-button-info p-button-rounded mr-2"
+                tooltip="Add to Cart"
               />
               <Button
                 icon="pi pi-credit-card"
                 className="p-button-help p-button-rounded mr-2"
+                tooltip="Buy Now"
               />
             </div>
           </div>
@@ -124,4 +126,4 @@ const DisconnectedPage: FC = () => {
     </div>
   );
 };
-export default DisconnectedPage;
+export default Store;
