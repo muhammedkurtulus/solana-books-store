@@ -7,12 +7,14 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { Tag } from "primereact/tag";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import * as web3 from "@solana/web3.js";
+import { WalletWindowClosedError } from "@solana/wallet-adapter-base";
 
 const Store: FC = () => {
+  const [tx, setTx] = useState("");
   const [balance, setBalance] = useState(0);
   const { connection } = useConnection();
-  const { publicKey } = useWallet();
-
+  const { publicKey, sendTransaction } = useWallet();
+  const storePublicKey = "27PF83wkyryFHV883FPrPHjBt9sD3xhRDJrhSVtPU8eB";
   const [products, setProducts] = useState([]);
   const productService = new ProductService();
 
@@ -33,20 +35,54 @@ const Store: FC = () => {
       numScroll: 1,
     },
   ];
+
   useEffect(() => {
     if (!connection || !publicKey) {
       return;
     }
-
-    connection.getAccountInfo(publicKey).then((info) => {
+    console.log("balance");
+    connection.getBalance(publicKey).then((info) => {
       if (!info) setBalance(0);
-      setBalance(info!.lamports);
+      setBalance(info!);
     });
-  }, [connection, publicKey]);
+  }, [connection, publicKey, tx]);
 
   useEffect(() => {
     productService.getProducts().then((data) => setProducts(data.slice(0, 9)));
   }, []);
+
+  const click = async (productPrice: any) => {
+    if (!connection || !publicKey) {
+      window.alert("Please connect wallet");
+      return;
+    }
+    const transaction = new web3.Transaction();
+    const recipientPubKey = new web3.PublicKey(storePublicKey);
+
+    try {
+      const sendSolInstruction = web3.SystemProgram.transfer({
+        fromPubkey: publicKey,
+        toPubkey: recipientPubKey,
+        lamports: web3.LAMPORTS_PER_SOL * productPrice,
+      });
+
+      transaction.add(sendSolInstruction);
+
+      const sig = await sendTransaction(transaction, connection);
+      const latestBlockHash = await connection.getLatestBlockhash();
+
+      await connection.confirmTransaction({
+        blockhash: latestBlockHash.blockhash,
+        lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
+        signature: sig,
+      });
+
+      console.log(latestBlockHash);
+      setTx(latestBlockHash.blockhash);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const productTemplate = (product: any) => {
     return (
@@ -77,11 +113,13 @@ const Store: FC = () => {
                 icon="pi pi-cart-plus"
                 className="p-button-info p-button-rounded mr-2"
                 tooltip="Add to Cart"
+                onClick={() => click(product.price)}
               />
               <Button
                 icon="pi pi-credit-card"
                 className="p-button-help p-button-rounded mr-2"
                 tooltip="Buy Now"
+                onClick={() => click(product.price)}
               />
             </div>
           </div>
