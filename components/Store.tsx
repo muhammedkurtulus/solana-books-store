@@ -1,13 +1,12 @@
-import { FC, useEffect, useState } from "react";
-import { Carousel } from "primereact/carousel";
-import { Button } from "primereact/button";
-import { ProductService } from "../services/ProductService";
-import { Image } from "primereact/image";
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import { Tag } from "primereact/tag";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import * as web3 from "@solana/web3.js";
-import { WalletWindowClosedError } from "@solana/wallet-adapter-base";
+import { Button } from "primereact/button";
+import { Carousel } from "primereact/carousel";
+import { Image } from "primereact/image";
+import { Tag } from "primereact/tag";
+import { FC, useEffect, useState } from "react";
+import { ProductService } from "../services/ProductService";
 
 const Store: FC = () => {
   const [tx, setTx] = useState("");
@@ -37,21 +36,21 @@ const Store: FC = () => {
   ];
 
   useEffect(() => {
+    productService.getProducts().then((data) => setProducts(data.slice(0, 9)));
+  }, []);
+
+  useEffect(() => {
     if (!connection || !publicKey) {
       return;
     }
     console.log("balance");
     connection.getBalance(publicKey).then((info) => {
       if (!info) setBalance(0);
-      setBalance(info!);
+      setBalance(info);
     });
   }, [connection, publicKey, tx]);
 
-  useEffect(() => {
-    productService.getProducts().then((data) => setProducts(data.slice(0, 9)));
-  }, []);
-
-  const click = async (productPrice: any) => {
+  const clickBuy = async (productPrice: any) => {
     if (!connection || !publicKey) {
       window.alert("Please connect wallet");
       return;
@@ -77,9 +76,11 @@ const Store: FC = () => {
         signature: sig,
       });
 
-      console.log(latestBlockHash);
+      //console.log(latestBlockHash);
       setTx(latestBlockHash.blockhash);
+      window.alert("Successfull");
     } catch (error) {
+      window.alert("Error: Request rejected or insufficient funds");
       console.error(error);
     }
   };
@@ -113,13 +114,13 @@ const Store: FC = () => {
                 icon="pi pi-cart-plus"
                 className="p-button-info p-button-rounded mr-2"
                 tooltip="Add to Cart"
-                onClick={() => click(product.price)}
+                onClick={() => clickBuy(product.price)}
               />
               <Button
                 icon="pi pi-credit-card"
                 className="p-button-help p-button-rounded mr-2"
                 tooltip="Buy Now"
-                onClick={() => click(product.price)}
+                onClick={() => clickBuy(product.price)}
               />
             </div>
           </div>
@@ -131,22 +132,20 @@ const Store: FC = () => {
   return (
     <div className="carousel-demo">
       <div className="card">
-        <div className="hidden-md">
-          <div className="card-container">
-            <div className="flex">
-              {publicKey ? (
-                <div className="flex-1 flex align-items-center mt-2 justify-content-center">
-                  <Tag icon="pi pi-wallet">
-                    {balance / web3.LAMPORTS_PER_SOL} SOL
-                  </Tag>
-                </div>
-              ) : (
-                ""
-              )}
-
+        <div className="card-container">
+          <div className="flex">
+            {publicKey ? (
               <div className="flex-1 flex align-items-center mt-2 justify-content-center">
-                <WalletMultiButton />
+                <Tag icon="pi pi-wallet">
+                  {balance / web3.LAMPORTS_PER_SOL} SOL
+                </Tag>
               </div>
+            ) : (
+              ""
+            )}
+
+            <div className="flex-1 flex align-items-center mt-2 justify-content-center">
+              <WalletMultiButton />
             </div>
           </div>
         </div>

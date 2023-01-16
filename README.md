@@ -1,6 +1,6 @@
-# Next.js - TypeScript - Solana - PrimeReact - PrimeFlex
+# Solana Books Store
 
-Solana Books Store
+Next.js - TypeScript - Solana - PrimeReact - PrimeFlex
 
 ## Getting Started
 

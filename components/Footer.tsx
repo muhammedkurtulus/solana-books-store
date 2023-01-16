@@ -1,6 +1,5 @@
-import Link from "next/link";
 import { Button } from "primereact/button";
-import { FC, MouseEventHandler, useCallback } from "react";
+import { FC } from "react";
 
 const Footer: FC = () => {
   const click = () => {
