@@ -83,7 +83,9 @@ const Store: FC = () => {
       setTransactionState(false);
       window.alert("Successfull");
     } catch (error) {
-      window.alert("Error: Request rejected or insufficient funds");
+      window.alert(
+        "Error: Request rejected or Insufficient funds or not on Devnet network"
+      );
       console.error(error);
     }
   };

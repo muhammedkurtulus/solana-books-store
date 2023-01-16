@@ -1,6 +1,6 @@
-# Solana Books Store
+# Solana Books Store | Next.js - TypeScript - Solana - PrimeReact - PrimeFlex
 
-Next.js - TypeScript - Solana - PrimeReact - PrimeFlex
+Books store in Solana Devnet network
 
 ## Getting Started
 
@@ -9,5 +9,7 @@ Next.js - TypeScript - Solana - PrimeReact - PrimeFlex
 - Install dependencies `yarn install`
 - Run `yarn dev` to start the development server
 - Open the app in a browser at started server `http://localhost:3000`
+- Switch network to `Devnet`
+- For airdrop [Sol Faucet](https://solfaucet.com/)
 
 <!-- ### Screenshots

@@ -1,0 +1,17 @@
+Title: Solana Books Store
+
+Overview: A fast, secure and easy dApp for purchasing e-books or print books on the Solana blockchain network.
+
+Problem: Long processes when purchasing books and problems with wallet security.
+
+Solution: Fast, secure and easy purchases thanks to the simple UI and Solana blockchain.
+
+Features: User-friendly dApp with fast, secure and easy features thanks to the UI and Solana blockchain.
+
+Benefits: Time saving, high security and easy operations.
+
+Implementation: The user interface can be made even more professional. Functions such as user profile, favorites, comments can be added. Existing functions can be further developed. In addition, a system where users can create stores can also be established.
+
+Why Solana: Solana is faster and cheaper than other blockchain networks.
+
+Conclusion: This dApp may not be just about buying and selling books in the blockchain ecosystem. Maybe this application can evolve into an application where books or publications are artifacts that can be stored and owned on the blockchain, similar to NFTs.
