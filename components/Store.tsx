@@ -4,12 +4,14 @@ import * as web3 from "@solana/web3.js";
 import { Button } from "primereact/button";
 import { Carousel } from "primereact/carousel";
 import { Image } from "primereact/image";
+import { ProgressBar } from "primereact/progressbar";
 import { Tag } from "primereact/tag";
 import { FC, useEffect, useState } from "react";
 import { ProductService } from "../services/ProductService";
 
 const Store: FC = () => {
   const [tx, setTx] = useState("");
+  const [transactionState, setTransactionState] = useState(false);
   const [balance, setBalance] = useState(0);
   const { connection } = useConnection();
   const { publicKey, sendTransaction } = useWallet();
@@ -43,7 +45,6 @@ const Store: FC = () => {
     if (!connection || !publicKey) {
       return;
     }
-    console.log("balance");
     connection.getBalance(publicKey).then((info) => {
       if (!info) setBalance(0);
       setBalance(info);
@@ -55,6 +56,7 @@ const Store: FC = () => {
       window.alert("Please connect wallet");
       return;
     }
+
     const transaction = new web3.Transaction();
     const recipientPubKey = new web3.PublicKey(storePublicKey);
 
@@ -68,6 +70,7 @@ const Store: FC = () => {
       transaction.add(sendSolInstruction);
 
       const sig = await sendTransaction(transaction, connection);
+      setTransactionState(true);
       const latestBlockHash = await connection.getLatestBlockhash();
 
       await connection.confirmTransaction({
@@ -76,8 +79,8 @@ const Store: FC = () => {
         signature: sig,
       });
 
-      //console.log(latestBlockHash);
       setTx(latestBlockHash.blockhash);
+      setTransactionState(false);
       window.alert("Successfull");
     } catch (error) {
       window.alert("Error: Request rejected or insufficient funds");
@@ -131,6 +134,20 @@ const Store: FC = () => {
 
   return (
     <div className="carousel-demo">
+      {transactionState ? (
+        <>
+          <h4 className="flex align-items-center mb-2 justify-content-center text-blue-900">
+            Purchase in progress. This can take some time.
+          </h4>
+          <ProgressBar
+            mode="indeterminate"
+            style={{ height: "6px" }}
+          ></ProgressBar>
+        </>
+      ) : (
+        " "
+      )}
+
       <div className="card">
         <div className="card-container">
           <div className="flex">
