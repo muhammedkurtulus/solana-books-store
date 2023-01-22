@@ -118,13 +118,15 @@ const Store: FC = () => {
         shopKeypair!.publicKey,
         amount * Math.pow(10, decimals)
       );
+      setTx(latestBlockHash.blockhash);
+      setTransactionState(false);
       console.log(
         `Token Transaction: https://explorer.solana.com/tx/${signature}?cluster=devnet`
       );
 
-      setTx(latestBlockHash.blockhash);
-      setTransactionState(false);
-      window.alert("Successfull");
+      window.alert(
+        `Successfull - Check console log for transaction url and view Solbook token in your wallet`
+      );
     } catch (error) {
       window.alert(
         "Error: Request rejected or Insufficient funds or not on Devnet network"
