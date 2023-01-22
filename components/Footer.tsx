@@ -6,7 +6,7 @@ const Footer: FC = () => {
     window.open("https://github.com/muhammedkurtulus");
   };
   return (
-    <div className="flex align-items-center justify-content-center mt-8 pt-8">
+    <div className="flex align-items-center justify-content-center mt-3 pt-3">
       <Button
         label=" muhammedkurtulus"
         className="p-button-secondary p-button-text"
