@@ -224,7 +224,7 @@ const Store: FC = () => {
 
         <div className="flex-1 flex align-items-center mt-2 justify-content-center text-blue-900">
           <h3 className="text-center">
-            Hold Solbook token and take advantage of opportunities..
+             Take advantage of opportunities with Solbook token
           </h3>
         </div>
 
