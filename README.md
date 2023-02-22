@@ -2,7 +2,7 @@
 
 Books store in Solana Devnet network
 
-Deployed [here](https://solana-books-store.vercel.app/)
+https://solana-books-store.vercel.app/
 
 ## Getting Started
 
